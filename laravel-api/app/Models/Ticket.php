@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-    /** @use HasFactory<\Database\Factories\TicketFactory> */
     use HasFactory;
+    protected $fillable = ['title', 'description', 'status', 'category_id', 'user_id'];
+ 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'ticket_tag');
+    }
+
+     public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

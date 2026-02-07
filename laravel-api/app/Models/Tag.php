@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    /** @use HasFactory<\Database\Factories\TagFactory> */
-    use HasFactory;
+     use HasFactory;
+     protected $fillable = ['name'];
+     
+    public function tickets(){
+    {
+        return $this->belongsToMany(Ticket::class, 'ticket_tag');
+    }
+    }
 }

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+         if (!Schema::hasTable('ticket_tag')) {
         Schema::create('ticket_tag', function (Blueprint $table) {
             $table->id();
              $table->unsignedBigInteger('ticket_id');
@@ -18,9 +19,10 @@ return new class extends Migration
 
             $table->unsignedBigInteger('tag_id');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            
             $table->timestamps();
-
         });
+         }
     }
 
     /**
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_tag');
+        Schema::dropIfExists('tag_ticket');
     }
 };

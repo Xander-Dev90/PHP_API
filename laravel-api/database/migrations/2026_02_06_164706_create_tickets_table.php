@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('tickets')) {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categoria_id');
-            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -25,6 +26,7 @@ return new class extends Migration
 
             $table->timestamps();
         });
+        }
     }
 
     /**
