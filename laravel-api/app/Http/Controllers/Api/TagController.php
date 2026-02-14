@@ -15,6 +15,8 @@ class TagController extends Controller
         return response()->json($tags);
     }
 
+     public function store() {}
+
     public function show($id)
     {
         $tag = \App\Models\Tag::find($id);
@@ -23,4 +25,8 @@ class TagController extends Controller
         }
         return response()->json($tag);
     }
+
+    public function update() {}
+
+    public function delete() {}
 }
