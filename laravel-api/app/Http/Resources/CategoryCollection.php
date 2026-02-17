@@ -26,6 +26,6 @@ class CategoryCollection extends ResourceCollection
                 ],
                 
             ];
-        })->all();
+        })->toArray();
     }
 }

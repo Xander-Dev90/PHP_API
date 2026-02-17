@@ -17,7 +17,12 @@ class TagResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => 'tag',
-            'attributes' => parent::toArray($request),
+            'attributes' => [
+                'name' => $this->name,
+            ],
+            'relationships' => [
+                'tickets' => TicketResource::collection($this->whenLoaded('tickets')),
+            ]
         ];
     }
 }

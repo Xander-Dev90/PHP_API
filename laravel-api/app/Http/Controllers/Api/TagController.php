@@ -5,25 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\TagResource;
+
 use App\Models\Tag;
 
 class TagController extends Controller
 {
     public function index()
     {
-        $tags = \App\Models\Tag::all();
-        return response()->json($tags);
+        return TagResource::collection(Tag::with('tickets')->get());
     }
 
      public function store() {}
 
-    public function show($id)
+    public function show(Tag $tag)
     {
-        $tag = \App\Models\Tag::find($id);
         if (!$tag) {
             return response()->json(['message' => 'Tag not found'], 404);
         }
-        return response()->json($tag);
+        return new TagResource($tag->load('tickets'));
     }
 
     public function update() {}
