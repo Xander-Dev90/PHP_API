@@ -13,17 +13,20 @@ class TagController extends Controller
 {
     public function index()
     {
-        return TagResource::collection(Tag::with('tickets')->get());
+        $tags = Tag::with('tickets.category', 'tickets.tags', 'tickets.user')->get();
+        return TagResource::collection($tags);
     }
 
      public function store() {}
 
     public function show(Tag $tag)
     {
+        $tag = $tag->load('tickets.category', 'tickets.tags', 'tickets.user');
         if (!$tag) {
             return response()->json(['message' => 'Tag not found'], 404);
         }
-        return new TagResource($tag->load('tickets'));
+
+        return new TagResource($tag);
     }
 
     public function update() {}

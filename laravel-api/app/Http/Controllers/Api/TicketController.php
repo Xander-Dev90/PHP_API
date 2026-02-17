@@ -4,26 +4,29 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\TagResource;
+use App\Http\Resources\TicketResource;
 
 use App\Models\Ticket;
 
 class TicketController extends Controller
 {
     public function index()
-    {
-        $tickets = \App\Models\Ticket::with(['category', 'tags'])->get();
-        return response()->json($tickets);
+    {  
+        $tickets = Ticket::with(['category', 'tags', 'user'])->get();
+        return TicketResource::collection($tickets);
+        
     }
 
     public function store() {}
 
-    public function show($id)
+    public function show(Ticket $ticket)
     {
-        $ticket = \App\Models\Ticket::with(['category', 'tags'])->find($id);
         if (!$ticket) {
             return response()->json(['message' => 'Ticket not found'], 404);
         }
-        return response()->json($ticket);
+       $ticket = $ticket->load(['category', 'tags', 'user']);
+       return new TicketResource($ticket);
     }
 
      public function update() {}

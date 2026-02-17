@@ -17,11 +17,16 @@ class TicketResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => 'ticket',
-            'attributes' => parent::toArray($request),
-            'relationships' => [
-                'category' => new CategoryResource($this->whenLoaded('category')),
-                'tags' => TagResource::collection($this->whenLoaded('tags')),
-            ]
+            'attributes' => [
+                'category'    => $this->category->name,
+                'author'      => $this->user->name,
+                'title'       => $this->title,
+                'description' => $this->description,
+                'status'      => $this->status,
+                'tags'        => $this->tags->pluck('name')->implode(', '),
+
+            ],
+            
         ];
     }
 }
