@@ -13,19 +13,18 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = \App\Models\Category::all();
-        return response()->json($categories);
+        return new CategoryCollection(Category::all());
     }
 
      public function store() {}
 
     public function show(Category $category)
     {
-        $category = $category->load('tickets');
+        $category = $category->load('tickets.category', 'tickets.tags', 'tickets.user');
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-        return response()->json(new CategoryResource($category));
+        return new CategoryResource($category);
     }
 
     public function update() {}
